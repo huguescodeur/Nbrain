@@ -1,0 +1,101 @@
+{% extends "network/layout2.html" %}
+
+{% load tailwind_tags %}
+{% load static %}
+
+{% block title %}
+Sign Up | Network
+{% endblock %}
+
+{% block script %}
+<script type"text/javascript" src="{% static 'network/signup.js' %}"></script>
+{% endblock %}
+
+{% block body %}
+<div class="user-box mt-24 mx-auto max-w-md bg-white shadow-md rounded-lg p-8">
+    <div>
+        <center>
+            <img src="{% static 'network/Images/logo_icon.png' %}" class="h-12 mb-6" alt="Logo">
+            <h3 class="text-2xl font-semibold">Inscrivez-vous à Nbrain</h3><br>
+        </center>
+    </div>
+
+    <form action="{% url 'register' %}" method="post" id="signin-form" enctype="multipart/form-data"
+        class="w-full mb-10">
+        {% csrf_token %}
+        <div class="form-group">
+            <div class="form-row flex flex-wrap -mx-2">
+                <div class="col-sm-6 my-1 px-2">
+                    <input
+                        class="form-controls inp fname w-full px-3 py-2 border rounded-md focus:outline-none  focus:border-indigo-500"
+                        type="text" name="firstname" placeholder="Prénom *" autocomplete="off" autofocus>
+                    <span class="star small"></span>
+                </div>
+                <div class="col-sm-6 my-1 px-2">
+                    <input
+                        class="form-controls inp lname w-full px-3 py-2 border rounded-md focus:outline-none  focus:border-indigo-500"
+                        type="text" name="lastname" placeholder="Nom *" autocomplete="off">
+                    <span class="star small"></span>
+                </div>
+            </div>
+        </div>
+        <div class="form-group">
+            <input
+                class="form-controls inp usrname w-full px-3 py-2 border rounded-md focus:outline-none focus:border-indigo-500"
+                type="text" name="username" placeholder="Username *" autocomplete="off">
+            <span class="star small">{{message}}</span>
+        </div>
+        <div class="form-group">
+            <input
+                class="form-controls inp email w-full px-3 py-2 border rounded-md focus:outline-none focus:ring-indigo-500"
+                type="email" name="email" placeholder="Adresse Email *" autocomplete="off">
+            <span class="star small"></span>
+        </div>
+        <div class="form-group">
+            <input
+                class="form-controls inp pswd w-full px-3 py-2 border rounded-md focus:outline-none focus:border-indigo-500"
+                type="password" name="password" placeholder="Mot de passe *" autocomplete="off">
+            <span class="star small"></span>
+        </div>
+        <div class="form-group">
+            <input
+                class="form-controls inp cpswd w-full px-3 py-2 border rounded-md focus:outline-none  focus:!border-indigo-500"
+                type="password" name="confirmation" placeholder="Confirmation mot de passe *" autocomplete="off">
+            <span class="star small"></span>
+        </div>
+        <!-- <div class="form-group">
+            <div class="custom-file">
+                <input type="file" name="profile"
+                    class="form-controls custom-file-input border rounded-md focus:outline-none  focus:!border-indigo-500"
+                    id="profile" accept="image/jpeg,image/png,image/webp,image/gif" data-focusable="true">
+                <label class="custom-file-label" for="profile"><span class="text-gray-500">Photo de
+                        profil</span></label>
+                <span class="star small"></span>
+            </div>
+        </div> -->
+        <!-- <div class="form-group">
+            <div class="custom-file">
+                <input type="file" name="cover"
+                    class="form-controls custom-file-input border rounded-md focus:outline-none  focus:border-indigo-500"
+                    id="cover" accept="image/jpeg,image/png,image/webp,image/gif" data-focusable="true">
+                <label class="custom-file-label" for="cover"><span class="text-gray-500">Photo de
+                        couverture</span></label>
+                <span class="star small"></span>
+            </div>
+        </div> -->
+
+        <center>
+            <input
+                class="px-3 py-2 cursor-pointer  w-full bg-indigo-500 text-white rounded-md hover:bg-indigo-600 focus:outline-none   focus:border-indigo-500"
+                type="submit" value="Inscription" disabled style="margin-top: 10px;">
+        </center>
+    </form>
+
+    <div>
+        <center>
+            Avez-vous déjà un compte?&nbsp;&nbsp;<a href="{% url 'login' %}"
+                class="text-indigo-500 hover:underline">Connectez-vous</a>
+        </center>
+    </div>
+</div>
+{% endblock %}

@@ -1,0 +1,169 @@
+{% extends 'network/index.html' %}
+
+{% load static %}
+
+{% block profile %}
+<div class="profile-view" data-user="{{username.username}}">
+    <div class="cover-image" style="background-image: url(/media/{{username.cover}})">
+
+    </div>
+    <div class="profile-image" style="background-image: url(/media/{{username.profile_pic}})"></div>
+    <div class="profile-details">
+        <div class="flex justify-end">
+            {% if user.username == username.username %}
+            <!-- ? Modifier le profil Start-->
+
+            <!-- ? Modifier le profil End-->
+            <button
+                class="transition ease-in-out pt-2 pb-2 px-3 me-2 mb-2 text-sm  font-bold text-gray-900 focus:outline-none  rounded-full border-2 border-indigo-500  hover:border-blue-500 hover:text-white hover:bg-indigo-400 bg-white-100 flex items-center justify-center"
+                id="edit-profile-btn">Modifier le profil</button>
+
+            <!-- ? Modal -->
+            <div id="profile-modal" tabindex="-1" aria-hidden="true"
+                class="hidden fixed inset-0 z-50 flex justify-center items-center w-full h-full bg-gray-900 bg-opacity-50">
+                <div class="relative p-4 w-full max-w-md max-h-full">
+                    <!-- Modal content -->
+                    <div class="relative bg-white rounded-lg shadow dark:bg-gray-700">
+                        <!-- Modal header -->
+                        <div
+                            class="flex items-center justify-between p-4 md:p-5 border-b rounded-t dark:border-gray-600">
+                            <h3 class="text-lg font-semibold text-gray-900 ">
+                                Modifier le profil
+                            </h3>
+                            <button type="button"
+                                class="pt-2 border-2 border-indigo-500 text-indigo-500 hover:bg-indigo-500 hover:border-indigo-400 hover:text-white rounded-lg text-sm w-8 h-8 ms-auto inline-flex justify-center items-center "
+                                data-modal-toggle="crud-modal">
+                                <svg class="w-3 h-3" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none"
+                                    viewBox="0 0 14 14">
+                                    <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"
+                                        stroke-width="2" d="m1 1 6 6m0 0 6 6M7 7l6-6M7 7l-6 6" />
+                                </svg>
+                                <span class="sr-only">Close modal</span>
+                            </button>
+                        </div>
+                        <!-- Modal body -->
+                        <form class="p-4 md:p-5">
+                            <div class="grid gap-4 mb-4 grid-cols-2">
+
+
+
+                                <div class="col-span-2">
+                                    <label for="description"
+                                        class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">PTitre du
+                                        profil</label>
+                                    <textarea id="description" rows="4"
+                                        class="block p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-blue-500 focus:border-blue-500 "
+                                        placeholder="Write product description here"></textarea>
+                                </div>
+                            </div>
+
+                        </form>
+                    </div>
+                </div>
+            </div>
+
+
+            {% elif is_follower %}
+            <button style="padding: 10px 0 10px; border: 2px solid #6366F1"
+                class="transition ease-in-out px-4 me-2 text-sm  font-bold text-white focus:outline-none  rounded-full bg-indigo-500 border-2  hover:border-white-100 hover:text-white hover:bg-indigo-400 bg-white-100 flex items-center justify-center float-right"
+                onclick="unfollow_user(this,'{{username.username}}','edit_page')" id="following-btn">Suivi(e)</button>
+            {% else %}
+            <button style="padding: 10px 0 10px; border: 2px solid #6366F1"
+                class="w-24 py-2.5 px-6 text-sm  text-black rounded-full cursor-pointer font-semibold text-center shadow-xs transition-all duration-500 hover:bg-indigo-500   hover:text-white"
+                onclick="follow_user(this,'{{username.username}}','edit_page')" id="follow-btn">Suivre</button>
+            {% endif %}
+        </div>
+        <div class="details-data">
+            <h5>{{username.first_name}} {{username.last_name}}</h5>
+            <div class="grey">@{{username.username}}</div>
+            <div class="bio">
+                {% if username.bio is not None %}
+                {{username.bio}}
+                {% endif %}
+            </div>
+            <div class="grey flex items-center" style="padding: 8px 0px;">
+                <svg width="1em" height="1em" viewBox="0 0 16 16" class="bi bi-calendar3" fill="currentColor"
+                    xmlns="http://www.w3.org/2000/svg">
+                    <path fill-rule="evenodd"
+                        d="M14 0H2a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V2a2 2 0 0 0-2-2zM1 3.857C1 3.384 1.448 3 2 3h12c.552 0 1 .384 1 .857v10.286c0 .473-.448.857-1 .857H2c-.552 0-1-.384-1-.857V3.857z" />
+                    <path fill-rule="evenodd"
+                        d="M6.5 7a1 1 0 1 0 0-2 1 1 0 0 0 0 2zm3 0a1 1 0 1 0 0-2 1 1 0 0 0 0 2zm3 0a1 1 0 1 0 0-2 1 1 0 0 0 0 2zm-9 3a1 1 0 1 0 0-2 1 1 0 0 0 0 2zm3 0a1 1 0 1 0 0-2 1 1 0 0 0 0 2zm3 0a1 1 0 1 0 0-2 1 1 0 0 0 0 2zm3 0a1 1 0 1 0 0-2 1 1 0 0 0 0 2zm-9 3a1 1 0 1 0 0-2 1 1 0 0 0 0 2zm3 0a1 1 0 1 0 0-2 1 1 0 0 0 0 2zm3 0a1 1 0 1 0 0-2 1 1 0 0 0 0 2z" />
+                </svg>
+                &nbsp;Adhésion {{username.date_joined | date:"F Y"}}
+            </div>
+            <div>
+                <strong>
+                    {{posts_count}}
+                </strong>
+                &nbsp;<span class="grey">Posts</span>
+                &ensp;
+                <a href="#">
+                    <strong id="following__count">{{following_count | default:0}}</strong>&nbsp;<span
+                        class="grey">Suivis</span>
+                </a>
+                &ensp;
+                <a href="#">
+                    <strong id="follower__count">{{follower_count | default:0}}</strong>&nbsp;<span
+                        class="grey">Abonnés</span>
+                </a>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+<div class="space"></div>
+
+
+
+
+
+<div id="recents--pub--section" class="container mx-auto px-4 py-4 ">
+
+    <!-- ? Recent Start -->
+    {% if recent_posts %}
+    {% for post in recent_posts %}
+    <div class="h-32 border-b px-6   rounded-lg shadow-md  mb-2 cursor-pointer">
+
+        <div class="w-full flex justify-between">
+            <h3 class="text-sm">{{post.creater.username}}</h3>
+            <a href="#" class="text-indigo-600 hover:no-underline">voir plus</a>
+        </div>
+
+        <div class="flex items-center ">
+            {% if post.content_image %}
+            <div class="min-h-16 min-w-16 bg-gray-400 mr-2 mb-2 rounded">
+                <img class="h-16 w-24 rounded object-cover" src="{{ post.content_image.url }}"
+                    alt="Image de publication">
+            </div>
+            {% else %}
+
+            {% endif %}
+
+            <p class=" text-gray-700 line-clamp-2">
+                {{ post.content_text }}
+            </p>
+        </div>
+        <div class="w-full flex justify-between">
+            <p class="text-sm">216 likes</p>
+            <a href="#" class="text-xs text-gray-700 hover:text-indigo-500 hover:underline">47 commentaires</a>
+        </div>
+
+    </div>
+    {% endfor %}
+    {% else %}
+    <!-- Display the emptyprofile block if no posts are found -->
+
+    <center>
+        <br>
+        <strong style="font-size: 1.2em;">@{{username}} hasn't posted</strong>
+        <div class="grey" style="font-size: .9em;">When they do, their posts will show up here.</div>
+    </center>
+
+    {% endif %}
+    <!-- ? Recent End -->
+
+</div>
+
+{% endblock %}
